@@ -1,6 +1,0 @@
-{
-  "name": "KESİN GEL ✂",
-  "description": "Berberi arama. Boş saati gör. Randevunu al. Kesin gel. Modern berber randevu ve keşif platformu.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
