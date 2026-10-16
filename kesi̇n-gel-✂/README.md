@@ -1,20 +1,24 @@
+# KESİN GEL Application
+
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://kesin-gel.vercel.app" />
+  <img width="1200" alt="Ana Ekran Resmi" src="https://github.com/BerkayTab/KESin-gel/blob/main/kesi%CC%87n-gel-%E2%9C%82/Gemini_Generated_Image_s1t8khs1t8khs1t8.jpg?raw=true" />
 </div>
 
-# Run and deploy your AI Studio app
+## Canlı Uygulama
+Uygulamanın canlı sürümüne buradan ulaşabilirsiniz:
+👉 **[Canlı Siteyi Görüntüle (Vercel)](https://ke-sin-gel.vercel.app/)**
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/8ab31449-fb25-4a93-8563-179b99350185
+## Proje Hakkında
+Bu uygulama, yapay zeka yardımıyla **KESİN GEL** organizasyonları için geliştirilmiştir.
 
-## Run Locally
+## Yerel Olarak Çalıştırma
 
-**Prerequisites:**  Node.js
+**Gereksinimler:** Node.js
 
-
-1. Install dependencies:
+1. Bağımlılıkları yükleyin:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
+2. `.env.local` dosyasına `GEMINI_API_KEY` anahtarınızı ekleyin.
+3. Uygulamayı çalıştırın:
    `npm run dev`
