@@ -12,13 +12,3 @@ Uygulamanın canlı sürümüne buradan ulaşabilirsiniz:
 
 ## Proje Hakkında
 Bu uygulama, yapay zeka yardımıyla **KESİN GEL** organizasyonları için geliştirilmiştir.
-
-## Yerel Olarak Çalıştırma
-
-**Gereksinimler:** Node.js
-
-1. Bağımlılıkları yükleyin:
-   `npm install`
-2. `.env.local` dosyasına `GEMINI_API_KEY` anahtarınızı ekleyin.
-3. Uygulamayı çalıştırın:
-   `npm run dev`
