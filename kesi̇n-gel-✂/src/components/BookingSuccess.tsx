@@ -1,3 +1,4 @@
+import { buildAppointmentCalendar } from '../utils/calendar';
 import React from 'react';
 import { useApp, formatTurkishDate } from '../context/AppContext';
 import { CheckCircle2, Calendar, Clock, MapPin, Scissors, Sparkles, Navigation, ArrowRight, Share2 } from 'lucide-react';
@@ -20,16 +21,7 @@ export const BookingSuccess: React.FC = () => {
   }
 
   const handleDownloadCalendar = () => {
-    // Generate simple .ics calendar file
-    const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//KESIN GEL//Berber Randevusu//TR
-BEGIN:VEVENT
-SUMMARY:${lastCreatedAppointment.barberName} - Berber Randevusu (KESİN GEL)
-DESCRIPTION:Hizmet: ${lastCreatedAppointment.services.map((s) => s.name).join(', ')}\\nTutar: ₺${lastCreatedAppointment.totalPrice}\\nAdres: ${lastCreatedAppointment.barberDistrict}
-STATUS:CONFIRMED
-END:VEVENT
-END:VCALENDAR`;
+    const icsContent = buildAppointmentCalendar(lastCreatedAppointment);
 
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
@@ -39,6 +31,7 @@ END:VCALENDAR`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
     showToast('Takvim İndirildi', 'Randevu takviminize eklenebilir dosya olarak indi.', 'success');
   };
 
