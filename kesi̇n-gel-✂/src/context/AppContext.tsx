@@ -1,39 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Barber, BarberService, Appointment, ScheduleSlot, ViewMode } from '../types';
 import { INITIAL_BARBERS } from '../data/mockBarbers';
+import { barberImages } from '../data/images';
+import { getTodayDateString, getDateStringOffset } from '../utils/dates';
 
-// Format YYYY-MM-DD
-export function getTodayDateString(): string {
-  const d = new Date();
-  return d.toISOString().split('T')[0];
-}
-
-export function getDateStringOffset(daysOffset: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() + daysOffset);
-  return d.toISOString().split('T')[0];
-}
-
-export function formatTurkishDate(dateStr: string): string {
-  const date = new Date(dateStr);
-  const todayStr = getTodayDateString();
-  const tomorrowStr = getDateStringOffset(1);
-
-  const months = [
-    'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
-  ];
-  const days = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
-
-  if (dateStr === todayStr) {
-    return `Bugün (${date.getDate()} ${months[date.getMonth()]})`;
-  }
-  if (dateStr === tomorrowStr) {
-    return `Yarın (${date.getDate()} ${months[date.getMonth()]})`;
-  }
-
-  return `${date.getDate()} ${months[date.getMonth()]}, ${days[date.getDay()]}`;
-}
+export { getTodayDateString, getDateStringOffset, formatTurkishDate } from '../utils/dates';
 
 export interface ToastMessage {
   id: string;
@@ -131,7 +102,7 @@ const DEFAULT_APPOINTMENTS: Appointment[] = [
     id: 'apt-demo-1',
     barberId: 'barber-2',
     barberName: 'Classic Cut',
-    barberImage: '/src/assets/images/barber_classic_cut_1792159431036.jpg',
+    barberImage: barberImages.classic,
     barberDistrict: 'Beşiktaş',
     services: [
       {
@@ -156,7 +127,7 @@ const DEFAULT_APPOINTMENTS: Appointment[] = [
     id: 'apt-past-1',
     barberId: 'barber-1',
     barberName: 'Ahmet Barber',
-    barberImage: '/src/assets/images/barber_ahmet_portrait_1792159430513.jpg',
+    barberImage: barberImages.ahmet,
     barberDistrict: 'Kadıköy',
     services: [
       {
@@ -182,7 +153,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [view, setView] = useState<ViewMode>('explore');
   const [barbers, setBarbers] = useState<Barber[]>(() => {
     const saved = localStorage.getItem('kesingel_barbers');
-    return saved ? JSON.parse(saved) : INITIAL_BARBERS;
+    // Persisted demo records can contain deleted /images paths or old build hashes.
+    return saved ? (JSON.parse(saved) as Barber[]).map((barber) => {
+      const current = INITIAL_BARBERS.find((item) => item.id === barber.id);
+      return current ? { ...barber, image: current.image, coverImage: current.coverImage } : barber;
+    }) : INITIAL_BARBERS;
   });
   const [selectedBarber, setSelectedBarber] = useState<Barber | null>(null);
   const [selectedServicesForBooking, setSelectedServicesForBooking] = useState<BarberService[]>([]);
@@ -198,7 +173,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [appointments, setAppointments] = useState<Appointment[]>(() => {
     const saved = localStorage.getItem('kesingel_appointments');
-    return saved ? JSON.parse(saved) : DEFAULT_APPOINTMENTS;
+    return saved ? (JSON.parse(saved) as Appointment[]).map((appointment) => {
+      const barber = INITIAL_BARBERS.find((item) => item.id === appointment.barberId);
+      return barber ? { ...appointment, barberImage: barber.image } : appointment;
+    }) : DEFAULT_APPOINTMENTS;
   });
 
   const [scheduleStore, setScheduleStore] = useState<Record<string, Record<string, ScheduleSlot[]>>>(() => {

@@ -1,3 +1,4 @@
+import { barberImages } from '../data/images';
 import React from 'react';
 import { Search, MapPin, Sparkles, Clock, CheckCircle } from 'lucide-react';
 
@@ -36,7 +37,7 @@ export const Hero: React.FC<HeroProps> = ({
       {/* Subtle background ambient artwork */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
         <img
-          src="/src/assets/images/hero_barber_interior_1792159430561.jpg"
+          src={barberImages.hero}
           alt="Modern Barber Lounge"
           className="w-full h-full object-cover object-center filter blur-[1px]"
           referrerPolicy="no-referrer"
